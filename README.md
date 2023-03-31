@@ -1,6 +1,6 @@
-# miniproject
+# alterra miniproject
 
-A new Flutter project.
+A new alterra Flutter project.
 
 ## Getting Started
 
