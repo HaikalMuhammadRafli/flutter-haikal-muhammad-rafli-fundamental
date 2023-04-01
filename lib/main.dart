@@ -50,6 +50,56 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController input1 = TextEditingController();
+  TextEditingController input2 = TextEditingController();
+
+  num? result = 0, num1 = 0, num2 = 0;
+
+  clear() {
+    setState(() {
+      input1.clear();
+      input2.clear();
+
+      result = 0;
+    });
+  }
+
+  add() {
+    setState(() {
+      num1 = num.parse(input1.text);
+      num2 = num.parse(input2.text);
+
+      result = num1! + num2!;
+    });
+  }
+
+  subtract() {
+    setState(() {
+      num1 = num.parse(input1.text);
+      num2 = num.parse(input2.text);
+
+      result = num1! - num2!;
+    });
+  }
+
+  multiply() {
+    setState(() {
+      num1 = num.parse(input1.text);
+      num2 = num.parse(input2.text);
+
+      result = num1! * num2!;
+    });
+  }
+
+  divide() {
+    setState(() {
+      num1 = num.parse(input1.text);
+      num2 = num.parse(input2.text);
+
+      result = num1! / num2!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -60,7 +110,12 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -69,12 +124,12 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
                     Text(
-                      "Result: 0",
+                      "Result",
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -85,11 +140,41 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue,
+                    ),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "$result",
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
                 child: TextField(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Enter first number',
                   ),
+                  controller: input1,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -103,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     border: OutlineInputBorder(),
                     labelText: 'Enter second number',
                   ),
+                  controller: input2,
                   keyboardType: TextInputType.number,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
@@ -110,7 +196,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          clear();
+                        },
+                        child: const Text(
+                          'Clear',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -118,7 +224,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 5),
                         child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            add();
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
@@ -138,7 +246,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            subtract();
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
@@ -158,15 +268,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 160),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 5),
+                        padding: const EdgeInsets.only(right: 5),
                         child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            multiply();
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
@@ -186,14 +298,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: () {
+                            divide();
+                          },
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.blue),
                             foregroundColor:
                                 MaterialStateProperty.all<Color>(Colors.white),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Divide',
                             style: TextStyle(
                               fontSize: 16,
@@ -203,6 +317,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Center(
+                  child: Text(
+                    "haii kal's calculator",
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
             ],
