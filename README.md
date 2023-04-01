@@ -2,6 +2,8 @@
 
 A new alterra Flutter project.
 
+app screenshot and app file are in the miniproject_4 folder
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
